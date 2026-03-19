@@ -171,9 +171,17 @@ func (d *CachedDiscoveryClient) getCachedFile(filename string) ([]byte, error) {
 }
 
 func (d *CachedDiscoveryClient) writeCachedFile(filename string, obj runtime.Object) error {
-	if err := os.MkdirAll(filepath.Dir(filename), 0750); err != nil {
-		return err
-	}
+	dir := filepath.Dir(filename)
+
+    if err := os.MkdirAll(dir, 0750); err != nil {
+        return err
+    }
+
+    tagFile := filepath.Join(dir, "CACHEDIR.TAG")
+    if _, err := os.Stat(tagFile); os.IsNotExist(err) {
+        content := []byte("Signature: 8a477f597d28d172789f06886806bc55\n")
+        _ = os.WriteFile(tagFile, content, 0644)
+    }
 
 	bytes, err := runtime.Encode(scheme.Codecs.LegacyCodec(), obj)
 	if err != nil {
