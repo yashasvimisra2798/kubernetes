@@ -174,8 +174,8 @@ func (d *CachedDiscoveryClient) writeCachedFile(filename string, obj runtime.Obj
 	dir := filepath.Dir(filename)
 
     if err := os.MkdirAll(dir, 0750); err != nil {
-        return err
-    }
+		return err
+	}
 
 	if d.cacheDirectory != "" {
 	tagFile := filepath.Join(dir, "CACHEDIR.TAG")
