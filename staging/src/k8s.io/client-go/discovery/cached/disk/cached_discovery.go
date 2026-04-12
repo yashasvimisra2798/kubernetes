@@ -181,7 +181,7 @@ func (d *CachedDiscoveryClient) writeCachedFile(filename string, obj runtime.Obj
 	if _, err := os.Stat(tagFile); err != nil {
 		if os.IsNotExist(err) {
 			content := []byte("Signature: 8a477f597d28d172789f06886806bc55\n")
-			if err := os.WriteFile(tagFile, content, 0644); err != nil {
+			if err := os.WriteFile(tagFile, content, 0660); err != nil {
 				return err
 			}
 		} else {
